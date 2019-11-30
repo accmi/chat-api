@@ -8,10 +8,10 @@ const updateUserRoute: ServerRoute = {
     handler: UserEx.update,
 };
 
-const getUserRoute: ServerRoute = {
+const getUsersRoute: ServerRoute = {
     method: 'GET',
-    path: `${apiPrefix}get-user`,
-    handler: UserEx.get
+    path: `${apiPrefix}get-users`,
+    handler: UserEx.getUsers
 };
 
 const createUserRoute: ServerRoute = {
@@ -20,8 +20,15 @@ const createUserRoute: ServerRoute = {
     handler: UserEx.create
 };
 
+const deleteUserRoute: ServerRoute = {
+    method: 'POST',
+    path: `${apiPrefix}delete-user`,
+    handler: UserEx.delete
+};
+
 export const userRoutes: ServerRoute[] = [
     updateUserRoute,
-    getUserRoute,
+    getUsersRoute,
     createUserRoute,
+    deleteUserRoute,
 ];

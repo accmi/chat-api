@@ -4,3 +4,5 @@ export const hostParams = {
 };
 
 export const apiPrefix = '/api/';
+
+export const saltRounds = 20;

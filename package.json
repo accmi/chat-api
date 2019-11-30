@@ -6,6 +6,8 @@
   "scripts": {
     "lint": "eslint --fix --cache ./app/index.ts",
     "start": "nodemon",
+    "install:mongo": "docker-compose up -d",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +21,7 @@
   },
   "homepage": "https://github.com/accmi/chat-api#readme",
   "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/node": "^12.12.14",
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
@@ -26,6 +29,14 @@
     "eslint-plugin-node": "^10.0.0",
     "nodemon": "^2.0.1",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "@types/hapi__hapi": "^18.2.6",
+    "@types/mongoose": "^5.5.32"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^18.4.0",
+    "bcrypt": "^3.0.7",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.13"
   }
 }

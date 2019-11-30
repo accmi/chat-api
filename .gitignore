@@ -1,4 +1,8 @@
 node_modules
 .vscode
 .DC_store
-.eslintcash
+/.eslintcache
+package-lock.json
+build
+mongo-volume
+init-mongo.js
