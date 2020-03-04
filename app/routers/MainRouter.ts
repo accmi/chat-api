@@ -6,33 +6,22 @@ import {
     Express,
 } from 'express';
 import { logger } from '../logger';
-import { RequestType, ErrorResponseType, ErrorType, CutomError } from '@types';
+import {
+    RequestType,
+    ErrorResponseType,
+    ErrorType,
+ } from '@types';
+ import { UserRouter } from '@routers';
 
 class MainRouterClass {
     constructor(router: Router, app: Express) {
-        app.use(this.requestLogging)
+        app.use(this.notFound);
         router.use(this.checkToken);
-        
-        // Errors handling
-        // app.use(this.notFound);
+
+        UserRouter(router, app);
         
         router.use(this.statusDetect);
         router.use(this.errorsHandler);
-
-        app.use(this.notFound);
-    }
-
-    requestLogging(req: Request, res: Response, next: NextFunction) {
-        logger.log({
-            message: req.method,
-            args: {
-                query: req.query,
-                body: req.body
-            },
-            operation: 'request',
-            level: 'info'
-        });
-        return next();
     }
 
     notFound(req: Request, res: Response) {
@@ -41,7 +30,7 @@ class MainRouterClass {
 
     statusDetect(result: ErrorResponseType, req: RequestType, res: Response, next: NextFunction) {
         if (result.status) {
-            return res.json(result).status(200);
+            return res.status(200).json(result);
         }
 
         return next(result);
@@ -59,6 +48,7 @@ class MainRouterClass {
             logger.log({
                 message: req.method,
                 level: 'error',
+                path: req.originalUrl,
                 args: {
                     body: req.body,
                     query: req.query,
@@ -66,10 +56,10 @@ class MainRouterClass {
                 error: errorObject,
             });
 
-            return res.json({
+            return res.status(400).json({
                 status: false,
                 error: errorObject,
-            }).sendStatus(400);
+            });
         }
 
         return next();

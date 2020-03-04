@@ -32,3 +32,9 @@ export enum HighLevelRoutes {
     all = '*',
     api = '/api',
 }
+
+export enum GlobalErrorsMessage {
+    notFound = 'not found',
+    isExist = 'already exist',
+    uncknownError = 'Unknown error',
+}

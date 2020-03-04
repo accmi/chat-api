@@ -1,25 +1,42 @@
+import { hashSync, genSaltSync } from 'bcryptjs';
 import { UserModel } from '@models';
-import { UserType } from '@types';
-import { Op } from 'sequelize';
-import JWT from 'jsonwebtoken';
-import { Authentication } from './Authentication';
+import { UserTypes, GlobalErrorsMessage } from '@types';
+import { Authentication } from '@services';
 
-export const createUser = async (user: UserType): Promise<MutationUsersType> => {
+import UserType = UserTypes.UserType;
+import MutationUserType = UserTypes.MutationUserType;
+
+export const createUser = async (user: UserType): Promise<MutationUserType> => {
     const { login, password, name } = user;
 
     if (login && password && name) {
         try {
-            const [user, created] = await UserModel.findOrCreate({where: { login }, defaults: { password, age }});
+            const salt = genSaltSync(10);
+            const hash = hashSync(password, salt);            
+            const [user, created] = await UserModel.findOrCreate({
+                where: {
+                    login,
+                },
+                defaults: {
+                    password: hash,
+                    name,
+                }});
 
             if (!created) {
                 return {
                     status: false,
-                    error: [ErrorsMessage.isExist],
+                    error: [GlobalErrorsMessage.isExist],
                 }
             }
 
+            const { token, refreshToken } = Authentication.getPairAndSetRefreshToken(user.logn);
+
             return {
                 status: true,
+                tokens: {
+                    token,
+                    refreshToken,
+                }
             };
         } catch (error) {
             return {
@@ -31,6 +48,6 @@ export const createUser = async (user: UserType): Promise<MutationUsersType> => 
 
     return {
         status: false,
-        error: [ErrorsMessage.uncknownError],
+        error: [GlobalErrorsMessage.uncknownError],
     };
 };

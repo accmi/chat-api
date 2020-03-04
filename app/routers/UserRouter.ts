@@ -5,8 +5,12 @@ import {
     Express,
 } from 'express';
 import { createValidator } from 'express-joi-validation';
-import { UserType, RequestType, UserRoutes } from '@types';
+import { UserTypes, RequestType } from '@types';
 import { userCreateScheme } from '@validators';
+import { createUser } from '@services';
+
+import UserRoutes = UserTypes.UserRoutes;
+import UserType = UserTypes.UserType;
 
 const validator = createValidator({
     passError: true,

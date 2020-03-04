@@ -2,7 +2,6 @@ import * as Joi from '@hapi/joi'
 
 export const userCreateScheme = Joi.object({
     login: Joi.string()
-        .alphanum()
         .min(3)
         .max(30)
         .required(),

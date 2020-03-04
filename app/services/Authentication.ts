@@ -40,63 +40,6 @@ class Auth {
 
         return refreshToken && (refreshToken === login);
     }
-
-    checkToken(req: Request, res: Response, next: NextFunction) {
-        const token = req.get('x-token');
-        const secret = process.env.SECRET || 'SECRET';
-        const pathName = req.path;
-
-        if (pathName && (pathName === UserRoutes.login)) {
-            return next();
-        }
-
-        if (token && token.length > 0) {
-            try {
-                JWT.verify(token, secret);
-
-                return next();   
-            } catch (error) {
-                return next({
-                    status: false,
-                    error: [ErrorsMessage.forbidden],
-                    errorDetail: error,
-                });
-            }
-        }
-
-        next({
-            status: false,
-            error: [ErrorsMessage.unauthorized],
-        });
-    };
-
-    errorTokenHandler(result: ErrorResponseType, req: Request, res: Response, next: NextFunction) {
-        if (!result.status) {
-            logger.log({
-                message: req.method,
-                args: {
-                    query: req.query,
-                    body: req.body
-                },
-                error: result.error,
-                errorDetail: result.errorDetail,
-                operation: 'request',
-                level: 'error'
-            });
-    
-            if (Array.isArray(result.error) && result.error.includes(ErrorsMessage.unauthorized)) {
-                return res.sendStatus(401);
-            }
-    
-            if (Array.isArray(result.error) && result.error.includes(ErrorsMessage.forbidden)) {
-                return res.sendStatus(403);
-            }
-    
-            return res.sendStatus(500);
-        }
-    
-        return next();
-    }
 };
 
 export const Authentication = new Auth();
