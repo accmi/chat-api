@@ -6,9 +6,16 @@
   "scripts": {
     "lint": "eslint --fix --cache ./app/index.ts",
     "start": "nodemon",
-    "install:mongo": "docker-compose up -d",
+    "docker:up": "docker-compose up -d",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "_moduleAliases": {
+    "@routers": "app/routers",
+    "@services": "app/services",
+    "@types": "app/types",
+    "@models": "app/models",
+    "@validators": "app/validators"
   },
   "repository": {
     "type": "git",
@@ -21,22 +28,34 @@
   },
   "homepage": "https://github.com/accmi/chat-api#readme",
   "devDependencies": {
-    "@types/bcrypt": "^3.0.0",
-    "@types/node": "^12.12.14",
-    "@typescript-eslint/eslint-plugin": "^2.9.0",
-    "@typescript-eslint/parser": "^2.9.0",
-    "eslint": "^6.7.1",
+    "@types/body-parser": "^1.17.1",
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.2",
+    "@types/hapi__joi": "^16.0.4",
+    "@types/jsonwebtoken": "^8.3.8",
+    "@types/node": "^12.12.17",
+    "@types/uuid": "^3.4.6",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.11.0",
+    "eslint": "^6.7.2",
     "eslint-plugin-node": "^10.0.0",
     "nodemon": "^2.0.1",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.2",
-    "@types/hapi__hapi": "^18.2.6",
-    "@types/mongoose": "^5.5.32"
+    "typescript": "^3.7.3",
+    "winston": "^3.2.1"
   },
   "dependencies": {
-    "@hapi/hapi": "^18.4.0",
-    "bcrypt": "^3.0.7",
+    "@hapi/joi": "^16.1.8",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "csvtojson": "^2.0.10",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-joi-validation": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.7.13"
+    "module-alias": "^2.2.2",
+    "pg": "^7.17.1",
+    "sequelize": "^5.21.3",
+    "uuid": "^3.3.3"
   }
 }

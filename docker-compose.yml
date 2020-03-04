@@ -1,7 +1,10 @@
 version: '3'
-
 services:
-  db:
-    image: 'mongo:latest'
+  postgresql:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: chat-api
+      POSTGRES_USER: misha
+      POSTGRES_PASSWORD: qwerty
     ports:
-      - "27017:27017"
+      - "5432:5432"

@@ -4,5 +4,3 @@ node_modules
 /.eslintcache
 package-lock.json
 build
-mongo-volume
-init-mongo.js
