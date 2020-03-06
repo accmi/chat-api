@@ -19,7 +19,7 @@ export interface ErrorType {
     message: string;
 }
 
-export interface MutationType {
+export interface ResponseType {
     status: boolean;
     error?: string[];
     tokens?: {

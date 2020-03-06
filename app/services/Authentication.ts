@@ -5,40 +5,31 @@ import { logger } from '../logger';
 import { ErrorResponseType } from '@types';
 
 class Auth {
-    refreshTokens: {[key: string]: string} = {};
-
-    getPairAndSetRefreshToken(login: string) {
-        const secret = process.env.SECRET || 'SECRET';
-        const refreshSecret = process.env.REFRESH_SECRET || 'REFRESH_SECRET';
-
-        const token = JWT.sign({ login }, secret, { expiresIn: '1m' });
-        const refreshToken = JWT.sign({ login }, refreshSecret, { expiresIn: '5m' });
-
-        this.setRefreshToken(refreshToken, login);
-
-        return {
-            token,
-            refreshToken,
+    getTokens(login: string) {
+        try {
+            const secret = process.env.SECRET || 'SECRET';
+            const refreshSecret = process.env.REFRESH_SECRET || 'REFRESH_SECRET';
+    
+            const token = JWT.sign({ login }, secret, { expiresIn: '1m' });
+            const refreshToken = JWT.sign({ login }, refreshSecret, { expiresIn: '1d' });
+    
+            return {
+                token,
+                refreshToken,
+            }
+        } catch (error) {
+            return error;
         }
     }
 
-    getToken(login: string) {
-        const secret = process.env.SECRET || 'SECRET';
+    checkToken(token: string) {
+        const sercet = process.env.SECRET || 'SECRET';
 
-        return JWT.sign({ login }, secret, { expiresIn: '1m' });
-    }
-
-    setRefreshToken(token: string, login: string) {
-        this.refreshTokens = {
-            ...this.refreshTokens,
-            [token]: login,
+        try {
+            return JWT.verify(token, sercet);
+        } catch(error) {
+            return error;
         }
-    };
-
-    checkRefreshToken(token: string, login: string) {
-        const refreshToken = this.refreshTokens[token];
-
-        return refreshToken && (refreshToken === login);
     }
 };
 

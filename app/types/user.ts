@@ -1,4 +1,4 @@
-import { MutationType } from '@types';
+import { ResponseType } from '@types';
 
 export namespace UserTypes {
     export interface UserType {
@@ -10,7 +10,13 @@ export namespace UserTypes {
     
     export enum UserRoutes {
         create = '/user',
+        login = '/login',
+    }
+
+    export enum UserErrorMessages {
+        wrongPassword = 'Password is wrong',
+        notFound = 'The user with this login does not exist',
     }
     
-    export interface MutationUserType extends MutationType {}
+    export interface MutationUserType extends ResponseType {}
 }
