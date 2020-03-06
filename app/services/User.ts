@@ -45,14 +45,21 @@ export const createUser = async (user: UserType): Promise<MutationUserType> => {
                 });
     
                 const { status, token: newRefreshToken, error } = await result.json();
-    
+
+                if (status) {
+                    return {
+                        status: true,
+                        tokens: {
+                            token,
+                            refreshToken,
+                        }
+                    };
+                }
+
                 return {
-                    status: true,
-                    tokens: {
-                        token,
-                        refreshToken,
-                    }
-                };
+                    status: false,
+                    error,
+                }
             } catch(error) {
                 return {
                     status: false,
